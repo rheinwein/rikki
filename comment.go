@@ -23,6 +23,10 @@ func NewComment(language, category, issue string) *Comment {
 }
 
 func (c *Comment) Path() string {
+	if c.Issue == "" {
+		return fmt.Sprintf("%s/%s/%s.md", c.Dir, c.Language, c.Category)
+	}
+
 	return fmt.Sprintf("%s/%s/%s/%s.md", c.Dir, c.Language, c.Category, c.Issue)
 }
 
@@ -36,6 +40,12 @@ func (c *Comment) Bytes() ([]byte, error) {
 		return b, err
 	}
 	return comment, nil
+}
+
+func (c *Comment) String() string {
+	b, _ := c.Bytes()
+
+	return string(b)
 }
 
 func commentDir() string {
